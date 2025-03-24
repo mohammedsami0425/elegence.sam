@@ -7,8 +7,6 @@ import {
   NewsletterSubscriber, InsertNewsletter,
   users, portfolioItems, orders, freelancers, contactMessages, newsletterSubscribers
 } from "@shared/schema";
-import { db } from "./db";
-import { eq, desc, and } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -328,228 +326,116 @@ export class MemStorage implements IStorage {
   }
 }
 
-import { db } from "./db";
-import { eq, desc, and } from "drizzle-orm";
+
 
 export class DatabaseStorage implements IStorage {
+  // We'll use the MemStorage for now until database integration is properly set up
+  private memStorage = new MemStorage();
+
   // User methods
   async getUser(id: number): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
-    return user || undefined;
+    return this.memStorage.getUser(id);
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
+    return this.memStorage.getUserByUsername(username);
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db
-      .insert(users)
-      .values(insertUser)
-      .returning();
-    return user;
+    return this.memStorage.createUser(insertUser);
   }
 
   // Portfolio methods
   async getPortfolioItems(): Promise<Portfolio[]> {
-    return await db.select().from(portfolioItems);
+    return this.memStorage.getPortfolioItems();
   }
 
   async getPortfolioItemById(id: number): Promise<Portfolio | undefined> {
-    const [item] = await db.select().from(portfolioItems).where(eq(portfolioItems.id, id));
-    return item || undefined;
+    return this.memStorage.getPortfolioItemById(id);
   }
 
   async getPortfolioItemsByCategory(category: string): Promise<Portfolio[]> {
-    return await db
-      .select()
-      .from(portfolioItems)
-      .where(eq(portfolioItems.category, category));
+    return this.memStorage.getPortfolioItemsByCategory(category);
   }
 
   async getFeaturedPortfolioItems(): Promise<Portfolio[]> {
-    return await db
-      .select()
-      .from(portfolioItems)
-      .where(eq(portfolioItems.featured, true));
+    return this.memStorage.getFeaturedPortfolioItems();
   }
 
   async createPortfolioItem(insertItem: InsertPortfolio): Promise<Portfolio> {
-    const [item] = await db
-      .insert(portfolioItems)
-      .values({
-        ...insertItem,
-        description: insertItem.description || null,
-        featured: insertItem.featured !== undefined ? insertItem.featured : false
-      })
-      .returning();
-    return item;
+    return this.memStorage.createPortfolioItem(insertItem);
   }
 
   async updatePortfolioItem(id: number, updatedFields: Partial<InsertPortfolio>): Promise<Portfolio | undefined> {
-    const [updatedItem] = await db
-      .update(portfolioItems)
-      .set(updatedFields)
-      .where(eq(portfolioItems.id, id))
-      .returning();
-    return updatedItem || undefined;
+    return this.memStorage.updatePortfolioItem(id, updatedFields);
   }
 
   async deletePortfolioItem(id: number): Promise<boolean> {
-    const [deletedItem] = await db
-      .delete(portfolioItems)
-      .where(eq(portfolioItems.id, id))
-      .returning();
-    return !!deletedItem;
+    return this.memStorage.deletePortfolioItem(id);
   }
 
   // Order methods
   async getOrders(): Promise<Order[]> {
-    return await db
-      .select()
-      .from(orders)
-      .orderBy(desc(orders.createdAt));
+    return this.memStorage.getOrders();
   }
 
   async getOrderById(id: number): Promise<Order | undefined> {
-    const [order] = await db.select().from(orders).where(eq(orders.id, id));
-    return order || undefined;
+    return this.memStorage.getOrderById(id);
   }
 
   async createOrder(insertOrder: InsertOrder): Promise<Order> {
-    const createdAt = new Date().toISOString();
-    const [order] = await db
-      .insert(orders)
-      .values({
-        ...insertOrder,
-        createdAt,
-        status: "pending",
-        phone: insertOrder.phone || null,
-        specialRequirements: insertOrder.specialRequirements || null,
-        referralSource: insertOrder.referralSource || null,
-      })
-      .returning();
-    return order;
+    return this.memStorage.createOrder(insertOrder);
   }
 
   async updateOrderStatus(id: number, status: string): Promise<Order | undefined> {
-    const [updatedOrder] = await db
-      .update(orders)
-      .set({ status })
-      .where(eq(orders.id, id))
-      .returning();
-    return updatedOrder || undefined;
+    return this.memStorage.updateOrderStatus(id, status);
   }
 
   // Freelancer methods
   async getFreelancers(): Promise<Freelancer[]> {
-    return await db
-      .select()
-      .from(freelancers)
-      .orderBy(desc(freelancers.createdAt));
+    return this.memStorage.getFreelancers();
   }
 
   async getFreelancerById(id: number): Promise<Freelancer | undefined> {
-    const [freelancer] = await db.select().from(freelancers).where(eq(freelancers.id, id));
-    return freelancer || undefined;
+    return this.memStorage.getFreelancerById(id);
   }
 
   async createFreelancer(insertFreelancer: InsertFreelancer): Promise<Freelancer> {
-    const createdAt = new Date().toISOString();
-    const [freelancer] = await db
-      .insert(freelancers)
-      .values({
-        ...insertFreelancer,
-        createdAt,
-        status: "pending",
-        portfolioUrl: insertFreelancer.portfolioUrl || null,
-      })
-      .returning();
-    return freelancer;
+    return this.memStorage.createFreelancer(insertFreelancer);
   }
 
   async updateFreelancerStatus(id: number, status: string): Promise<Freelancer | undefined> {
-    const [updatedFreelancer] = await db
-      .update(freelancers)
-      .set({ status })
-      .where(eq(freelancers.id, id))
-      .returning();
-    return updatedFreelancer || undefined;
+    return this.memStorage.updateFreelancerStatus(id, status);
   }
 
   // Contact methods
   async getContactMessages(): Promise<ContactMessage[]> {
-    return await db
-      .select()
-      .from(contactMessages)
-      .orderBy(desc(contactMessages.createdAt));
+    return this.memStorage.getContactMessages();
   }
 
   async getContactMessageById(id: number): Promise<ContactMessage | undefined> {
-    const [message] = await db.select().from(contactMessages).where(eq(contactMessages.id, id));
-    return message || undefined;
+    return this.memStorage.getContactMessageById(id);
   }
 
   async createContactMessage(insertMessage: InsertContact): Promise<ContactMessage> {
-    const createdAt = new Date().toISOString();
-    const [message] = await db
-      .insert(contactMessages)
-      .values({
-        ...insertMessage,
-        createdAt,
-        read: false,
-      })
-      .returning();
-    return message;
+    return this.memStorage.createContactMessage(insertMessage);
   }
 
   async markContactMessageAsRead(id: number): Promise<ContactMessage | undefined> {
-    const [updatedMessage] = await db
-      .update(contactMessages)
-      .set({ read: true })
-      .where(eq(contactMessages.id, id))
-      .returning();
-    return updatedMessage || undefined;
+    return this.memStorage.markContactMessageAsRead(id);
   }
 
   // Newsletter methods
   async getNewsletterSubscribers(): Promise<NewsletterSubscriber[]> {
-    return await db
-      .select()
-      .from(newsletterSubscribers)
-      .orderBy(desc(newsletterSubscribers.createdAt));
+    return this.memStorage.getNewsletterSubscribers();
   }
 
   async createNewsletterSubscriber(insertSubscriber: InsertNewsletter): Promise<NewsletterSubscriber> {
-    // Check if email already exists
-    const isSubscribed = await this.isEmailSubscribed(insertSubscriber.email);
-    if (isSubscribed) {
-      const [existingSubscriber] = await db
-        .select()
-        .from(newsletterSubscribers)
-        .where(eq(newsletterSubscribers.email, insertSubscriber.email));
-      
-      if (existingSubscriber) return existingSubscriber;
-    }
-    
-    const createdAt = new Date().toISOString();
-    const [subscriber] = await db
-      .insert(newsletterSubscribers)
-      .values({
-        ...insertSubscriber,
-        createdAt,
-      })
-      .returning();
-    return subscriber;
+    return this.memStorage.createNewsletterSubscriber(insertSubscriber);
   }
 
   async isEmailSubscribed(email: string): Promise<boolean> {
-    const [subscriber] = await db
-      .select()
-      .from(newsletterSubscribers)
-      .where(eq(newsletterSubscribers.email, email));
-    return !!subscriber;
+    return this.memStorage.isEmailSubscribed(email);
   }
 }
 
