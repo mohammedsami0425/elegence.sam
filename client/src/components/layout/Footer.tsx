@@ -69,27 +69,27 @@ const Footer = () => {
             <ul className="font-['Montserrat'] space-y-2">
               <li>
                 <Link href="/">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Home</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Home</div>
                 </Link>
               </li>
               <li>
                 <Link href="/about">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">About</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">About</div>
                 </Link>
               </li>
               <li>
                 <Link href="/services">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Services</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Services</div>
                 </Link>
               </li>
               <li>
                 <Link href="/portfolio">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Portfolio</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Portfolio</div>
                 </Link>
               </li>
               <li>
                 <Link href="/contact">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Contact</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Contact</div>
                 </Link>
               </li>
             </ul>
@@ -100,27 +100,27 @@ const Footer = () => {
             <ul className="font-['Montserrat'] space-y-2">
               <li>
                 <Link href="/services">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Custom Design</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Custom Design</div>
                 </Link>
               </li>
               <li>
                 <Link href="/services">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Bridal Collection</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Bridal Collection</div>
                 </Link>
               </li>
               <li>
                 <Link href="/services">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Alterations & Restyling</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Alterations & Restyling</div>
                 </Link>
               </li>
               <li>
                 <Link href="/services">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Fabric Consultation</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Fabric Consultation</div>
                 </Link>
               </li>
               <li>
                 <Link href="/services">
-                  <a className="text-white/80 hover:text-[#d4af37] transition-all">Style Advisory</a>
+                  <div className="text-white/80 hover:text-[#d4af37] transition-all cursor-pointer">Style Advisory</div>
                 </Link>
               </li>
             </ul>
