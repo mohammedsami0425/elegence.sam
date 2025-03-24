@@ -41,8 +41,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={`fixed w-full bg-white/90 backdrop-blur-sm shadow-sm z-50 transition-all duration-300 ${
-      isScrolled ? 'py-2' : 'py-3'
+    <nav className={`fixed w-full bg-white/95 backdrop-blur-sm shadow-md z-50 transition-all duration-300 ${
+      isScrolled ? 'py-2' : 'py-4'
     }`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link href="/">
@@ -52,11 +52,11 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex space-x-8">
+        <div className="hidden md:flex space-x-8 items-center bg-black/5 px-6 py-2 rounded-full">
           {navLinks.map((link) => (
             <Link key={link.path} href={link.path}>
-              <div className={`font-['Montserrat'] text-sm uppercase tracking-wider text-[#212121] hover:text-[#d4af37] transition-all cursor-pointer ${
-                isActive(link.path) ? "text-[#d4af37]" : ""
+              <div className={`font-['Montserrat'] text-sm uppercase tracking-wider font-medium hover:text-[#d4af37] transition-all cursor-pointer ${
+                isActive(link.path) ? "text-[#d4af37] font-bold" : "text-[#111111]"
               }`}>
                 {link.label}
               </div>
@@ -83,9 +83,11 @@ const Navbar = () => {
             {navLinks.map((link, index) => (
               <Link key={link.path} href={link.path}>
                 <div 
-                  className={`font-['Montserrat'] text-sm uppercase tracking-wider text-[#212121] hover:text-[#d4af37] py-2 ${
+                  className={`font-['Montserrat'] text-sm uppercase tracking-wider py-2 ${
                     index !== navLinks.length - 1 ? "border-b border-gray-100" : ""
-                  } transition-all ${isActive(link.path) ? "text-[#d4af37]" : ""} cursor-pointer`}
+                  } transition-all cursor-pointer font-medium hover:text-[#d4af37] ${
+                    isActive(link.path) ? "text-[#d4af37] font-bold" : "text-[#111111]"
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}
