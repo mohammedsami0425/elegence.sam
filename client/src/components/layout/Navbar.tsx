@@ -46,20 +46,20 @@ const Navbar = () => {
     }`}>
       <div className="container mx-auto px-4 flex justify-between items-center">
         <Link href="/">
-          <a className="font-['Playfair_Display'] text-2xl font-bold tracking-wide text-[#212121]">
+          <div className="font-['Playfair_Display'] text-2xl font-bold tracking-wide text-[#212121]">
             Élégance
-          </a>
+          </div>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex space-x-8">
           {navLinks.map((link) => (
             <Link key={link.path} href={link.path}>
-              <a className={`font-['Montserrat'] text-sm uppercase tracking-wider text-[#212121] hover:text-[#d4af37] transition-all ${
+              <div className={`font-['Montserrat'] text-sm uppercase tracking-wider text-[#212121] hover:text-[#d4af37] transition-all cursor-pointer ${
                 isActive(link.path) ? "text-[#d4af37]" : ""
               }`}>
                 {link.label}
-              </a>
+              </div>
             </Link>
           ))}
         </div>
@@ -82,14 +82,14 @@ const Navbar = () => {
           <div className="container mx-auto px-4 py-3 flex flex-col space-y-4">
             {navLinks.map((link, index) => (
               <Link key={link.path} href={link.path}>
-                <a 
+                <div 
                   className={`font-['Montserrat'] text-sm uppercase tracking-wider text-[#212121] hover:text-[#d4af37] py-2 ${
                     index !== navLinks.length - 1 ? "border-b border-gray-100" : ""
-                  } transition-all ${isActive(link.path) ? "text-[#d4af37]" : ""}`}
+                  } transition-all ${isActive(link.path) ? "text-[#d4af37]" : ""} cursor-pointer`}
                   onClick={() => setIsOpen(false)}
                 >
                   {link.label}
-                </a>
+                </div>
               </Link>
             ))}
           </div>
